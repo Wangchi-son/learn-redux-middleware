@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./modelues";
+import rootReducer from "./modules";
 
 import logger from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension";

@@ -1,9 +1,11 @@
+// Promise에 기반한 Thunk를 만들어주는 함수입니다.
 export const createPromiseThunk = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
 
   const thunkCreator = (param) => async (dispatch) => {
-    dispatch({ type });
+    dispatch({ type, param });
     try {
+      // 결과물의 이름을 payload 라는 이름으로 통일
       const payload = await promiseCreator(param);
       dispatch({
         type: SUCCESS,
@@ -37,12 +39,12 @@ export const handleAsyncActions = (type, key) => {
       case SUCCESS:
         return {
           ...state,
-          [key]: reducerUtils.success(),
+          [key]: reducerUtils.success(action.payload),
         };
       case ERROR:
         return {
           ...state,
-          [key]: reducerUtils.error(),
+          [key]: reducerUtils.error(action.payload),
         };
       default:
         return state;
@@ -50,25 +52,32 @@ export const handleAsyncActions = (type, key) => {
   };
 };
 
+// 리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.
 export const reducerUtils = {
-  initial: (data = null) => ({
-    data,
+  // 초기 상태. 초기 data 값은 기본적으로 null 이지만
+  // 바꿀 수도 있습니다.
+  initial: (initialData = null) => ({
     loading: false,
+    data: initialData,
     error: null,
   }),
+  // 로딩중 상태. prevState의 경우엔 기본값은 null 이지만
+  // 따로 값을 지정하면 null 로 바꾸지 않고 다른 값을 유지시킬 수 있습니다.
   loading: (prevState = null) => ({
-    data: prevState,
     loading: true,
+    data: prevState,
     error: null,
   }),
-  success: (data) => ({
-    data,
+  // 성공 상태
+  success: (payload) => ({
     loading: false,
+    data: payload,
     error: null,
   }),
+  // 실패 상태
   error: (error) => ({
-    data: null,
     loading: false,
-    error,
+    data: null,
+    error: error,
   }),
 };

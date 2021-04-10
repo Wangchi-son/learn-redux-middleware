@@ -6,7 +6,7 @@ import {
   increase,
   increaseAsync,
   decreaseAsync,
-} from "../modelues/counter";
+} from "../modules/counter";
 
 function CounterContainer() {
   const number = useSelector((state) => state.counter);
