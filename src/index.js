@@ -7,9 +7,10 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./modelues";
-import myLogger from "./middlewares/myLogger";
 
-const store = createStore(rootReducer, applyMiddleware(myLogger));
+import logger from "redux-logger";
+
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>
