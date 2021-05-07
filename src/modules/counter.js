@@ -22,6 +22,7 @@ export const decreaseAsync = () => (dispatch) => {
 //초기 상태
 const initialState = 0;
 
+// 리듀서
 export default function counter(state = initialState, action) {
   switch (action.type) {
     case INCREASE:
